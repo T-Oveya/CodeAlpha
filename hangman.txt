@@ -1,1 +1,113 @@
+import random
+def hangman():
+    words = ['python', 'hangman', 'challenging', 'creativity', 'coding', 'innovation']
+    word = random.choice(words)
+    guessed = "_" * len(word)
+    word_completion = list(guessed)
+    guessed_letters = []
+    attempts = 6
+    print("Let's play Hangman!")
+    print(display_hangman(attempts))
+    print("Word to guess: ", " ".join(word_completion))
+    print("\n")
+    
+    while attempts > 0 and "_" in word_completion:
+        guess = input("Guess a letter: ").lower()
+        
+        if len(guess) == 1 and guess.isalpha():
+            if guess in guessed_letters:
+                print(f"You've already guessed the letter {guess}. Try again.")
+            elif guess not in word:
+                print(f"The letter {guess} is not in the word.")
+                attempts -= 1
+                guessed_letters.append(guess)
+            else:
+                print(f"Good job! The letter {guess} is in the word.")
+                for i in range(len(word)):
+                    if word[i] == guess:
+                        word_completion[i] = guess
+                guessed_letters.append(guess)
+        else:
+            print("Invalid input. Please enter a single alphabetic character.")
+        
+        print(display_hangman(attempts))
+        print("Word to guess: ", " ".join(word_completion))
+        print("\n")
+    
+    if "_" not in word_completion:
+        print("Congratulations! You've guessed the word correctly!")
+    else:
+        print(f"Sorry, you've run out of attempts. The word was '{word}'.")
+
+def display_hangman(attempts):
+    stages = [
+        """
+           -----
+           |   |
+           O   |
+          /|\\  |
+          / \\  |
+               |
+        --------
+        """,
+        """
+           -----
+           |   |
+           O   |
+          /|\\  |
+          /    |
+               |
+        --------
+        """,
+        """
+           -----
+           |   |
+           O   |
+          /|\\  |
+               |
+               |
+        --------
+        """,
+        """
+           -----
+           |   |
+           O   |
+          /|   |
+               |
+               |
+        --------
+        """,
+        """
+           -----
+           |   |
+           O   |
+           |   |
+               |
+               |
+        --------
+        """,
+        """
+           -----
+           |   |
+           O   |
+               |
+               |
+               |
+        --------
+        """,
+        """
+           -----
+           |   |
+               |
+               |
+               |
+               |
+        --------
+        """
+    ]
+    return stages[6 - attempts]
+
+if __name__ == "__main__":
+    hangman()
+
 
