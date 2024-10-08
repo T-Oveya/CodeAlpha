@@ -1,0 +1,57 @@
+class Stock:
+    def __init__(self, ticker, shares, price):
+        self.ticker = ticker.upper()
+        self.shares = shares
+        self.price = price  # Manually set price
+
+    def get_total_value(self):
+        return self.shares * self.price
+
+
+class Portfolio:
+    def __init__(self):
+        self.stocks = {}
+
+    def add_stock(self, ticker, shares, price):
+        if ticker in self.stocks:
+            self.stocks[ticker].shares += shares
+            print(f"Updated {ticker}: now {self.stocks[ticker].shares} shares.")
+        else:
+            self.stocks[ticker] = Stock(ticker, shares, price)
+            print(f"Added {shares} shares of {ticker} at ${price:.2f} each.")
+
+    def view_portfolio(self):
+        print("\nCurrent Portfolio:")
+        total_value = 0
+        for stock in self.stocks.values():
+            value = stock.get_total_value()
+            total_value += value
+            print(f"{stock.ticker}: {stock.shares} shares @ ${stock.price:.2f} each = ${value:.2f}")
+        print(f"\nTotal Portfolio Value: ${total_value:.2f}")
+
+
+def main():
+    portfolio = Portfolio()
+
+    while True:
+        print("\nStock Portfolio Tracker")
+        print("1. Add Stock")
+        print("2. View Portfolio")
+        print("3. Exit")
+        choice = input("Choose an option: ")
+
+        if choice == '1':
+            ticker = input("Enter stock ticker: ")
+            shares = int(input("Enter number of shares: "))
+            price = float(input("Enter current price per share: "))
+            portfolio.add_stock(ticker, shares, price)
+        elif choice == '2':
+            portfolio.view_portfolio()
+        elif choice == '3':
+            print("Exiting program.")
+            break
+        else:
+            print("Invalid choice. Please try again.")
+
+if __name__ == "__main__":
+    main()
